@@ -33,7 +33,7 @@ for file in tqdm(files):
         para_JP = re.split(r'(?<=。)', str(df.iloc[p,0]))
         df_para_JP = pd.DataFrame(para_JP)
         
-        EN_split = re.compile(r'(?<!U\.S\. )(?<!I\. )(?<!II\. )(?<!III\. )(?<=\. )')
+        EN_split = re.compile(r'(?<!\b[A-Z]\.   )(?<!\bU\.S\. )(?<!\bI\. )(?<!\bII\. )(?<!\bIII\. )(?<=\. )')
         para_EN = re.split(EN_split, str(df.iloc[p,1]))
         df_para_EN = pd.DataFrame(para_EN)
         
