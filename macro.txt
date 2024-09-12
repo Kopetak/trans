@@ -1,0 +1,54 @@
+Sub ExportChartToWord()
+    Dim wdApp As Object
+    Dim wdDoc As Object
+    Dim ws As Worksheet
+    Dim ch As ChartObject
+    Dim rng As Range
+    Dim selectedShape As InlineShape
+    
+    ' エクセルシートとグラフの設定
+    Set ws = ThisWorkbook.Sheets(図1-1)
+    Set ch = ws.ChartObjects(1) ' 最初のグラフを対象にします
+
+    ' Wordアプリケーションを開く
+    On Error Resume Next
+    Set wdApp = GetObject(, Word.Application)
+    If wdApp Is Nothing Then
+        Set wdApp = CreateObject(Word.Application)
+    End If
+    On Error GoTo 0
+    
+    ' Word文書を開く（ここで「図1をここに挿入」と書かれた文書を指定）
+    Set wdDoc = wdApp.Documents.Open(CUserstaka_pythonDesktopテスト用wordふぁいる.docx) ' パスを変更してください
+
+    ' グラフをコピー
+    ch.chart.CopyPicture Format=xlPicture
+    
+    ' Wordの指定された位置に貼り付け
+    wdApp.Selection.Find.Text = (図1-1を挿入)
+    wdApp.Selection.Find.Execute
+    wdApp.Selection.PasteSpecial DataType=9
+    
+    ' 貼り付けた画像を選択
+
+    Set selectedShape = Selection.InlineShapes(1)
+    With chart.ShapeRange
+        ' サイズを72%に縮小
+        .LockAspectRatio = msoFalse
+        .Width = .Width  0.72
+        .Height = .Height  0.72
+        ' 文字列の折り返し設定
+        .WrapFormat.Type = wdWrapTopBottom
+    End With
+
+    ' Word文書を保存して閉じる
+    wdDoc.Save
+    wdDoc.Close
+    wdApp.Quit
+
+    ' 変数の解放
+    Set ch = Nothing
+    Set ws = Nothing
+    Set wdDoc = Nothing
+    Set wdApp = Nothing
+End Sub
